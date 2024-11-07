@@ -84,7 +84,7 @@ import java.util.Scanner;
 
     }
 
-    private void viewStudent() {  
+    public void viewStudent() {  
         
     config conf = new config();
     String studentQuery = "SELECT * FROM tbl_student";
@@ -94,7 +94,7 @@ import java.util.Scanner;
   } 
     
 
-private void updateStudent(){
+public void updateStudent(){
     
  Scanner sc = new Scanner(System.in);
  config conf = new config();
@@ -125,12 +125,12 @@ conf.updateRecord(qry, fname, lname, email, address, date, id);
 
    }
 
- private void deleteStudent(){
+ public  void deleteStudent(){
      
  Scanner sc = new Scanner(System.in);
-System.out.println("Enter ID to delete:");
+ System.out.println("Enter ID to delete:");
  config conf = new config();
-int id = sc.nextInt();
+ int id = sc.nextInt();
 
 while(conf.getSingleValue("SELECT s_id FROM tbl_student WHERE s_id = ?",id)== 0){
 System.out.println("Selected ID doesn't exist!!");

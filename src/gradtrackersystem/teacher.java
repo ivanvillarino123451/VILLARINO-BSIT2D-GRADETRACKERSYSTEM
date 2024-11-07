@@ -54,10 +54,13 @@ public class teacher {
         }while(response.equalsIgnoreCase("yes"));
         System.out.println("Thank you so much!"); 
     }
+     
+     
+         
        public void addteacher(){
         Scanner sc = new Scanner(System.in);
         config conf = new config();
-        
+       
         
         System.out.print(" teacher id:");
         String id= sc.next();
@@ -70,7 +73,7 @@ public class teacher {
         conf.addRecord(sql, name, email);
         
     }
-    private void viewteacher() {  
+    public void viewteacher() {  
         
         config conf = new config();
         String  Query = "SELECT * FROM tbl_teacher";
@@ -79,7 +82,7 @@ public class teacher {
         conf.viewRecords(Query, Headers, Columns);
     }
     
-private void updateteacher(){
+    public void updateteacher(){
     
  Scanner sc = new Scanner(System.in);
  config conf = new config();
@@ -103,7 +106,7 @@ conf.updateRecord(qry, name, email, id);
 
 
 }
- private void deleteteacher(){
+ public void deleteteacher(){
      
     Scanner sc = new Scanner(System.in);
     config conf = new config();

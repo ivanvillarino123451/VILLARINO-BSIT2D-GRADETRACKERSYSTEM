@@ -78,7 +78,7 @@ public class subject {
         sql = "INSERT INTO tbl_subject(s_name, s_semester, s_description, s_units) VALUES ( ?, ?, ?, ?)";
         conf.addRecord(sql, name, semester, description, units);
     }
-    private void viewsubject() {  
+    public void viewsubject() {  
         
       config conf = new config();
         String Query = "SELECT * FROM tbl_subject";
@@ -87,12 +87,21 @@ public class subject {
         conf.viewRecords(Query, Headers, Columns);
     }
     
-private void updatesubject(){
+    public void updatesubject(){
     
  Scanner sc = new Scanner(System.in);
+ config conf = new config();
+
 System.out.println(" Enter the id to update: ");
 int id = sc.nextInt();
         
+
+     while(conf.getSingleValue("SELECT sub_id FROM tbl_subject WHERE sub_id = ?",id)== 0){
+     System.out.println("Selected ID doesn't exist!!");
+     System.out.println("Select Student ID Again:");
+     id = sc.nextInt();
+}
+
         System.out.print(" name: ");
         String name = sc.next();
         System.out.print(" semester: ");
@@ -102,19 +111,32 @@ int id = sc.nextInt();
         System.out.print(" units : ");
         String units = sc.next();
         
+        
+     String qry ="UPDATE tbl_subject SET s_name = ?, s_semester = ?, s_description = ?, s_units = ? WHERE sub_id = ?";
+     conf.updateRecord(qry, name, semester, description, units, id);
+        
+        
    }
- private void deletesubject(){
+    public void deletesubject(){
     
      Scanner sc = new Scanner(System.in);
+     config conf = new config();
+
    
      System.out.println("Enter the id to delete:");
      int id = sc.nextInt();
      
+     
+     while(conf.getSingleValue("SELECT sub_id FROM tbl_subject WHERE sub_id = ?",id)== 0){
+     System.out.println("Selected ID doesn't exist!!");
+     System.out.println("Select Student ID Again:");
+     id = sc.nextInt();
+     
      String qry = "DELETE FROM tbl_subject WHERE sub_id = ?";
-     config conf = new config();
       conf.deleteRecord(qry,id);
      
   }
+ }
 }
     
 

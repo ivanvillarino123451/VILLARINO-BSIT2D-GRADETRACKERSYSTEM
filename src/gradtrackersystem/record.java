@@ -23,6 +23,8 @@ public class record {
         switch(action){
             case 1:
             record.addrecord();
+           
+            
             break;
             
             case 2:
@@ -56,18 +58,54 @@ public class record {
         }while(response.equalsIgnoreCase("yes"));
         System.out.println("Thank you so much!"); 
     }
-       public void addrecord(){
+       private void addrecord(){
            
         Scanner sc = new Scanner(System.in);
         config conf = new config();
         
         
+        student st = new student();
+        st.viewStudent();
+         
+        
         System.out.print(" Student ID: ");
-        String sid = sc.next();
-        System.out.print(" Teacher ID: ");
-        String tid = sc.next();
+        int sid = sc.nextInt();
+  
+        while(conf.getSingleValue("SELECT s_id FROM tbl_student WHERE s_id = ?",sid)== 0){
+            System.out.println("Selected ID doesn't exist!!");
+            System.out.println("Select Student ID Again:");
+            sid = sc.nextInt();
+        }     
+        
+        
+        teacher teacher = new teacher();
+        teacher.viewteacher();
+         
+            
+        System.out.print(" teacher ID: ");
+        int tid = sc.nextInt();
+  
+            
+         
+            while(conf.getSingleValue("SELECT t_id FROM tbl_teacher WHERE t_id = ?",tid)== 0){
+            System.out.println("Selected ID doesn't exist!!");
+            System.out.println("Select teacher ID Again:");
+            tid = sc.nextInt();
+}
+
+            subject sbj = new subject();
+            sbj.viewsubject();
+ 
         System.out.print("Subject ID: ");
-        String subid = sc.next();
+        int subid = sc.nextInt();
+        
+        
+            while(conf.getSingleValue("SELECT sub_id FROM tbl_subject WHERE sub_id = ?",subid)== 0){
+            System.out.println("Selected ID doesn't exist!!");
+            System.out.println("Select subject ID Again:");
+            subid = sc.nextInt();
+}
+
         System.out.print(" Grade: ");
         String grade = sc.next();
         System.out.print("Remarks: ");
@@ -75,28 +113,27 @@ public class record {
          
         
         String sql;
-        sql = "INSERT INTO tbl_record(s_id, t_id, sub_id, grade, remarks) VALUES (?, ?, ?, ?, ?)";
+        sql = "INSERT INTO tbl_record(s_id, t_id, sub_id, r_grade, r_remarks) VALUES (?, ?, ?, ?, ?)";
         conf.addRecord(sql, sid, tid, subid, grade, remarks);
     }
-    private void viewrecord() {  
+    public void viewrecord() {  
         
       config conf = new config();
         String Query = "SELECT * FROM tbl_record";
-        String[] Headers = {"ID", "sid", "tid", "subid", "grade", "remarks"};
-        String[] Columns = {"r_id", "s_id", "t_id" , "sub_id", "grade", "remarks"};
+        String[] Headers = {"ID", "rsid", "rtid", "rsubid", "grade", "remarks"};
+        String[] Columns = {"r_id", "s_id", "t_id" , "sub_id", "r_grade", "r_remarks"};
  
         conf.viewRecords(Query, Headers,Columns);
     }
     
-private void updaterecord(){
+    public void updaterecord(){
     
- Scanner sc = new Scanner(System.in);
-System.out.println(" Enter the id to update: ");
-int id = sc.nextInt();
+  Scanner sc = new Scanner(System.in);
+  config conf = new config();
 
+  System.out.println(" Enter the id to update: ");
+  int id = sc.nextInt();
 
- System.out.print(" Student ID: ");
-        String sid = sc.next();
         System.out.print(" Teacher ID: ");
         String tid = sc.next();
         System.out.print("Subeject ID: ");
@@ -105,20 +142,30 @@ int id = sc.nextInt();
         String grade = sc.next();
         System.out.print("Remarks: ");
         String remarks = sc.next();
+        
+        
+  String qry ="UPDATE tbl_record SET r_id= ?, t_id = ?,sub_id = ?, r_grade = ?, r_remarks = ? WHERE r_id = ?";
+  conf.updateRecord(qry,id, tid, subid, grade, remarks, id);
+
+        
    }
- private void deleterecord(){
+ public void deleterecord(){
     
      Scanner sc = new Scanner(System.in);
-   
-     System.out.println("Enter the id to delete:");
-        int id = sc.nextInt();     
-     
-     String qry = "DELETE FROM tbl_record  WHERE r_id = ?";
-     
      config conf = new config();
-      conf.deleteRecord(qry,id);
+     System.out.println("Enter the id to delete:");
+     int id = sc.nextInt();     
+     
+     while(conf.getSingleValue("SELECT r_id FROM tbl_record WHERE r_id = ?",id)== 0){
+     System.out.println("Selected ID doesn't exist!!");
+     System.out.println("Select Student ID Again:");
+     id = sc.nextInt();
+}
+  
+        
+        
+     String qry = "DELETE FROM tbl_record  WHERE r_id = ?";
+     conf.deleteRecord(qry,id);
      
   }
 }
-    
-
